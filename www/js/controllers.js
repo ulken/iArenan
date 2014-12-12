@@ -1,5 +1,5 @@
-angular.module('iArenan.controllers', [])
+var app = angular.module('iArenan.controllers', [])
 
-.controller('MainCtrl', function($scope) {
+app.controller('MainCtrl', function($scope) {
 
-});
+})
