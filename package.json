@@ -1,7 +1,7 @@
 {
   "name": "iarenan",
   "version": "1.0.0",
-  "description": "iArenan: An Ionic project",
+  "description": "iArenan: Mobile App for Arenan.com",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^0.7.1",
