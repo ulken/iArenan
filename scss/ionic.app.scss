@@ -21,15 +21,19 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
-$bar-notification-height: 24px;
-$bar-notification-transition-duration: 300ms;
-
 @mixin transition($args...) {
     -moz-transition: $args;
     -ms-transition: $args;
     -webkit-transition: $args;
     transition: $args;
 }
+
+ion-nav-view {
+    background-color: $base-background-color;
+}
+
+$bar-notification-height: 24px;
+$bar-notification-transition-duration: 300ms;
 
 .bar.bar-notification {
     @include transition($bar-notification-transition-duration all);
