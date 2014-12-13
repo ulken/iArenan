@@ -7814,3 +7814,34 @@ $ios-transition-box-shadow-end: -200px 0px 200px rgba(0,0,0,0.15), -5px 0px 5px 
 .platform-c:not(.enable-transitions) * {
   -webkit-transition: none !important;
   transition: none !important; }
+
+.bar.bar-notification {
+  -moz-transition: 300ms all;
+  -ms-transition: 300ms all;
+  -webkit-transition: 300ms all;
+  transition: 300ms all;
+  /* Centered, right below header */
+  display: block;
+  height: 24px;
+  line-height: 24px;
+  padding: 0;
+  text-align: center;
+  top: 44px; }
+  .platform-ios.platform-cordova .bar.bar-notification {
+    top: 64px; }
+  .bar.bar-notification.ng-enter, .bar.bar-notification.ng-leave.ng-leave-active {
+    border-width: 0;
+    height: 0; }
+  .bar.bar-notification.ng-leave, .bar.bar-notification.ng-enter.ng-enter-active {
+    border-width: 1px;
+    height: 24px; }
+
+.has-header {
+  -moz-transition: 300ms top;
+  -ms-transition: 300ms top;
+  -webkit-transition: 300ms top;
+  transition: 300ms top; }
+  .has-header.has-notification {
+    top: 68px; }
+    .platform-ios.platform-cordova .has-header.has-notification {
+      top: 88px; }

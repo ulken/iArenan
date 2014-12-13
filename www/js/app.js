@@ -1,5 +1,9 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
-var app = angular.module('iArenan', ['ionic', 'iArenan.controllers'])
+var app = angular.module('iArenan', [
+    'ionic',
+    'iA.controllers',
+    'iA.services'
+])
 
 app.run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -16,15 +20,21 @@ app.run(function($ionicPlatform) {
 })
 
 app.config(function($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/login')
+
     $stateProvider
 
-    .state('app', {
-        url: "/app",
+    .state('main', {
+        url: '/',
         abstract: true,
-        templateUrl: "templates/menu.html",
-        controller: 'AppCtrl'
+        templateUrl: 'templates/main.html',
+        controller: 'MainCtrl'
     })
 
-    // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app')
+    .state('login', {
+        url: '/login',
+        templateUrl: 'templates/login.html',
+        controller: 'LoginCtrl'
+    })
+
 })

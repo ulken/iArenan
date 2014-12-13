@@ -1,25 +1,23 @@
-<ion-modal-view>
-  <ion-header-bar>
-    <h1 class="title">Login</h1>
-    <div class="buttons">
-      <button class="button button-clear" ng-click="closeLogin()">Close</button>
-    </div>
-  </ion-header-bar>
-  <ion-content>
+<ion-header-bar class="bar-energized">
+    <h1 class="title">iArenan</h1>
+</ion-header-bar>
+<div class="bar bar-notification bar-{{notification.type}}" ng-if="notification.isShowing">
+    {{notification.message}}
+</div>
+<ion-content ng-class="{'has-notification': notification.isShowing}">
     <form ng-submit="doLogin()">
-      <div class="list">
-        <label class="item item-input">
-          <span class="input-label">Username</span>
-          <input type="text" ng-model="loginData.username">
-        </label>
-        <label class="item item-input">
-          <span class="input-label">Password</span>
-          <input type="password" ng-model="loginData.password">
-        </label>
-        <label class="item">
-          <button class="button button-block button-positive" type="submit">Log in</button>
-        </label>
-      </div>
+        <div class="list">
+            <label class="item item-input">
+                <span class="input-label">Profil</span>
+                <input type="text" ng-model="loginData.profil">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Lösenord</span>
+                <input type="password" ng-model="loginData.password">
+            </label>
+            <label class="item">
+                <button class="button button-block button-positive" type="submit">Logga in</button>
+            </label>
+        </div>
     </form>
-  </ion-content>
-</ion-modal-view>
+</ion-content>

@@ -21,3 +21,47 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+$bar-notification-height: 24px;
+$bar-notification-transition-duration: 300ms;
+
+@mixin transition($args...) {
+    -moz-transition: $args;
+    -ms-transition: $args;
+    -webkit-transition: $args;
+    transition: $args;
+}
+
+.bar.bar-notification {
+    @include transition($bar-notification-transition-duration all);
+    /* Centered, right below header */
+    display: block;
+    height: $bar-notification-height;
+    line-height: $bar-notification-height;
+    padding: 0;
+    text-align: center;
+    top: $bar-height;
+    .platform-ios.platform-cordova & {
+        top: $bar-height + $ios-statusbar-height;
+    }
+    &.ng-enter,
+    &.ng-leave.ng-leave-active {
+        border-width: 0;
+        height: 0;
+    }
+    &.ng-leave,
+    &.ng-enter.ng-enter-active {
+        border-width: 1px;
+        height: $bar-notification-height;
+    }
+}
+
+.has-header {
+    @include transition($bar-notification-transition-duration top);
+    &.has-notification {
+        top: $bar-height + $bar-notification-height;
+
+        .platform-ios.platform-cordova & {
+            top: $bar-height + $bar-notification-height + $ios-statusbar-height;
+        }
+    }
+}
