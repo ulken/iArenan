@@ -1,22 +1,26 @@
 var app = angular.module('iA.controllers', [])
 
-app.controller('MainCtrl', function($scope, $state, AuthenticationService) {
-    AuthenticationService.isAuthenticated()
-    .then(function (isAuthenticated) {
-        if (!isAuthenticated) {
-            $state.go('login')
-        }
-    })
+app.controller('MainCtrl', function($scope, $state, isLoggedIn) {
+    if (isLoggedIn) {
+        $state.go('ia.home')
+    }
+    else {
+        $state.go('login')
+    }
 })
 
-app.controller('LoginCtrl', function ($scope, $state, $timeout, AuthenticationService, BackendService) {
+app.controller('HomeCtrl', function ($scope, BackendService) {
+    console.log('HOME')
+})
+
+app.controller('LoginCtrl', function ($scope, $state, $timeout, AuthenticationService) {
     $scope.loginData = {}
     $scope.notification = {}
 
     $scope.doLogin = function () {
         AuthenticationService.login($scope.loginData)
         .then(function () {
-            $state.go('main')
+            $state.go('ia.home')
         })
         .catch(alertError)
     }

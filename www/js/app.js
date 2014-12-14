@@ -16,15 +16,29 @@ app.run(function($ionicPlatform, $state, AuthenticationService) {
 })
 
 app.config(function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/')
 
     $stateProvider
 
-    .state('main', {
-        url: '/',
-        // abstract: true,
+    .state('ia', {
+        url: '/ia',
+        abstract: true,
         templateUrl: 'templates/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        resolve: {
+            isLoggedIn: function (AuthenticationService) {
+                return AuthenticationService.isAuthenticated()
+            }
+        }
+    })
+
+    .state('ia.home', {
+        url: '/home',
+        views: {
+            'viewContent': {
+                templateUrl: 'templates/home.html',
+                controller: 'HomeCtrl'
+            }
+        }
     })
 
     .state('login', {
@@ -32,4 +46,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
         templateUrl: 'templates/login.html',
         controller: 'LoginCtrl'
     })
+
+    $urlRouterProvider.otherwise('/ia/home')
 })
