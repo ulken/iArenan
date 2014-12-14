@@ -1,7 +1,12 @@
 var app = angular.module('iA.controllers', [])
 
-app.controller('MainCtrl', function($scope) {
-
+app.controller('MainCtrl', function($scope, $state, AuthenticationService) {
+    AuthenticationService.isAuthenticated()
+    .then(function (isAuthenticated) {
+        if (!isAuthenticated) {
+            $state.go('login')
+        }
+    })
 })
 
 app.controller('LoginCtrl', function ($scope, $state, $timeout, AuthenticationService, BackendService) {

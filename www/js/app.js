@@ -12,18 +12,11 @@ app.run(function($ionicPlatform, $state, AuthenticationService) {
         if (window.cordova && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true)
         }
-
-        AuthenticationService.isAuthenticated()
-        .then(function (isAuthenticated) {
-            if (isAuthenticated) {
-                $state.go('main')
-            }
-        })
     })
 })
 
 app.config(function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/login')
+    $urlRouterProvider.otherwise('/')
 
     $stateProvider
 
