@@ -7818,6 +7818,9 @@ $ios-transition-box-shadow-end: -200px 0px 200px rgba(0,0,0,0.15), -5px 0px 5px 
 ion-nav-view {
   background-color: #fff; }
 
+.list-inset {
+  margin: 10px; }
+
 .bar.bar-notification {
   -moz-transition: 300ms all;
   -ms-transition: 300ms all;

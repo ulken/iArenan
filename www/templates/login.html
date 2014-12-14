@@ -7,6 +7,10 @@
 <ion-content ng-class="{'has-notification': notification.isShowing}">
     <form ng-submit="doLogin()">
         <div class="list list-inset">
+            <div class="item item-image padding">
+                <img src="img/gl2.jpg" alt="Gladiator II">
+            </div>
+            <div class="item item-divider">Inloggning</div>
             <label class="item item-input">
                 <i class="icon ion-person placeholder-icon"></i>
                 <input type="text" placeholder="Profilnamn" ng-model="loginData.profil">
@@ -15,11 +19,8 @@
                 <i class="icon ion-locked placeholder-icon"></i>
                 <input type="password" placeholder="Lösenord" ng-model="loginData.password">
             </label>
-            <ion-toggle ng-model="settings.rememberMe" ng-checked="settings.rememberMe" toggle-class="toggle-balanced">
-                Kom ihåg mig
-            </ion-toggle>
         </div>
-        <div class="padding">
+        <div class="padding-horizontal">
             <button class="button button-block button-positive" type="submit">Logga in</button>
         </div>
     </form>

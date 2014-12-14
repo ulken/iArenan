@@ -4,19 +4,14 @@ app.controller('MainCtrl', function($scope) {
 
 })
 
-app.controller('LoginCtrl', function ($scope, $state, $timeout, $storage, BackendService) {
-    var STORAGE = {
-        SETTINGS: 'ia-settings'
-    }
+app.controller('LoginCtrl', function ($scope, $state, $timeout, AuthenticationService, BackendService) {
     $scope.loginData = {}
     $scope.notification = {}
-    $scope.settings = $storage.getObject(STORAGE.SETTINGS, false)
 
     $scope.doLogin = function () {
-        BackendService.login($scope.loginData)
+        AuthenticationService.login($scope.loginData)
         .then(function () {
-            // $state.go('main')
-            $storage.setObject(STORAGE.SETTINGS, $scope.settings)
+            $state.go('main')
         })
         .catch(alertError)
     }

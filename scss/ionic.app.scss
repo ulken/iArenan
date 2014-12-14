@@ -28,8 +28,12 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
     transition: $args;
 }
 
+// Override default styles
 ion-nav-view {
     background-color: $base-background-color;
+}
+.list-inset {
+    margin: 10px
 }
 
 $bar-notification-height: 24px;
