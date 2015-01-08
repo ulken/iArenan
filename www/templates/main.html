@@ -10,11 +10,13 @@
   </ion-side-menu-content>
 
   <ion-side-menu side="right">
-    <header class="bar bar-header bar-dark">
-      <h1 class="title">Meny</h1>
-    </header>
     <ion-content>
       <ion-list>
+          <ion-item class="item-divider">Inställningar</ion-item>
+          <ion-item menu-close nav-clear href="#/login" class="item-icon-left"  ng-click="doLogout()">
+              <i class="icon ion-power"></i>
+              Logga ut
+          </ion-item>
       </ion-list>
     </ion-content>
   </ion-side-menu>

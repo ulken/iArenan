@@ -1,6 +1,9 @@
 var app = angular.module('iA.controllers', [])
 
-app.controller('MainCtrl', function($scope) {
+app.controller('MainCtrl', function($scope, AuthenticationService) {
+    $scope.doLogout = function () {
+        AuthenticationService.logout()
+    }
 })
 
 app.controller('HomeCtrl', function ($scope, $Q, $timeout, BackendService) {
@@ -61,6 +64,7 @@ app.controller('LoginCtrl',
         AuthenticationService.login($scope.loginData)
         .then(function (isAuthenticated) {
             if (isAuthenticated) {
+                $scope.loginData = {}
                 $state.go('ia.home')
             }
             else {

@@ -131,7 +131,8 @@ app.factory('BackendService',
 app.factory('AuthenticationService', function (HttpService) {
     var ENDPOINT = {
         MAIN: 'http://arenan.com/index-home.php?go',
-        LOGIN: 'http://arenan.com/com/login/login-router.php'
+        LOGIN: 'http://arenan.com/com/login/login-router.php',
+        LOGOUT: 'http://arenan.com/com/my/login/login-off.php'
     }
     /**
     * Response always returns status code 200, so no way to tell error from OK
@@ -148,7 +149,8 @@ app.factory('AuthenticationService', function (HttpService) {
 
     return {
         isAuthenticated: isAuthenticated,
-        login: loginHandler
+        login: loginHandler,
+        logout: logoutHandler
     }
 
     function isAuthenticated() {
@@ -172,5 +174,9 @@ app.factory('AuthenticationService', function (HttpService) {
 
             return isAuthenticated
         })
+    }
+
+    function logoutHandler() {
+        return HttpService.get(ENDPOINT.LOGOUT)
     }
 })
