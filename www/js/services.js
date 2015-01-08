@@ -1,28 +1,150 @@
+
 var app = angular.module('iA.services', [])
 
-app.factory('BackendService', function($http, $q) {
+app.factory('HttpService', function ($http) {
 
+    return {
+        get: getRequest,
+        post: postRequest
+    }
+
+    function requestTemplate(method, url, args, callback) {
+        if (!args) {
+            args = [{ data: {} }]
+        }
+        else if (!angular.isArray(args)) {
+            args = [args]
+        }
+        args.unshift(url)
+
+        return $http[method].apply(this, args)
+    }
+
+    function getRequest(url) {
+        return requestTemplate('get', url, null)
+    }
+
+    function postRequest(url, args) {
+        return requestTemplate('post', url, args)
+    }
 })
 
-app.factory('AuthenticationService', function ($http, $q) {
-    var MAIN_ENDPOINT = 'http://arenan.com/index-home.php?go'
-    var LOGIN_ENDPOINT = 'http://arenan.com/com/login/login-router.php'
-    var POST_REQUEST_CONFIG = {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        transformRequest: urlEncodeRequest
+app.factory('BackendFrameService', function ($q) {
+    var backendFrame
+
+    return {
+        getInstance: getInstance,
+        load: load
+    }
+
+    function getInstance() {
+        if (!backendFrame) {
+            backendFrame = document.createElement('iframe')
+            backendFrame.style.display = 'none'
+            document.body.appendChild(backendFrame)
+        }
+        return backendFrame
+    }
+
+    function load(url) {
+        var deferred = $q.defer()
+        var instance = getInstance()
+        instance.onload = function () {
+            deferred.resolve(instance)
+        }
+        instance.src = url
+        return deferred.promise
+    }
+})
+
+app.factory('BackendParserService', function () {
+    var MY_GLADIATOR_KEYS = [
+        'image',
+        'name',
+        'title',
+        'rank',
+        'popularity',
+        'race',
+        'age',
+        'gender',
+        'clan',
+        'clanStatus',
+        'level',
+        'experiencePoints',
+        'capital',
+        'health',
+        'shape',
+        'rounds'
+    ]
+
+    return {
+        parseMyGladiator: parseMyGladiator
+    }
+
+    function parseMyGladiator(backendFrame) {
+        var IDENTIFIER = 'do_myglinfo'
+        var FUNCTION_REGEXP = new RegExp(IDENTIFIER + '\\((.*)\\);')
+
+        var data = {}
+        angular.element(backendFrame.contentDocument)
+            .find('script')
+            .text()
+            .match(FUNCTION_REGEXP).pop()
+            .replace(/'/g,'')
+            .split(',')
+            .forEach(function (value, index) {
+                data[MY_GLADIATOR_KEYS[index]] = value
+            })
+
+        return data
+    }
+})
+
+app.factory('BackendService',
+    function (HttpService, BackendFrameService, BackendParserService) {
+    var ENDPOINT = {
+        START_GLADIATOR_II: 'http://arenan.com/gl2/startup.php',
+        MY_GLADIATOR: 'http://arenan.com/gl2/mygladis/mygl.php'
+    }
+
+    var BackendFrame = BackendFrameService
+    var BackendParser = BackendParserService
+
+    return {
+        startGladiatorII: startGladiatorII,
+        getMyGladiator: getMyGladiator
+    }
+
+    function startGladiatorII() {
+        return HttpService.get(ENDPOINT.START_GLADIATOR_II)
+    }
+
+    function getMyGladiator() {
+        return BackendFrame
+            .load(ENDPOINT.MY_GLADIATOR)
+            .then(function (backendFrame) {
+                return BackendParser.parseMyGladiator(backendFrame)
+            })
+    }
+})
+
+app.factory('AuthenticationService', function (HttpService) {
+    var ENDPOINT = {
+        MAIN: 'http://arenan.com/index-home.php?go',
+        LOGIN: 'http://arenan.com/com/login/login-router.php'
     }
     /**
-     * Response always returns status code 200, so no way to tell error from OK
-     * Location redirection header is ignored for the same reason
-     * Index page has an ETag header if not authenticated
-     * Only way to detect login error is to read content length
-     * Fragile method, so compares to both to maximize correctness
-     */
-    var CONTENT_LENGTH_LOGGED_OUT = 1694
-    var CONTENT_LENGTH_SUCCESS = 614
-    var CONTENT_LENGTH_ERROR = 1189
+    * Response always returns status code 200, so no way to tell error from OK
+    * Location redirection header is ignored for the same reason
+    * Index page has an ETag header if not authenticated
+    * Only way to detect login error is to read content length
+    * Fragile method, so compares to both to maximize correctness
+    */
+    var CONTENT_LENGTH = {
+        LOGGED_OUT: 1694,
+        SUCCESS: 614,
+        ERROR: 1189
+    }
 
     return {
         isAuthenticated: isAuthenticated,
@@ -30,48 +152,25 @@ app.factory('AuthenticationService', function ($http, $q) {
     }
 
     function isAuthenticated() {
-        var deferred = $q.defer()
-
-        $http.get(MAIN_ENDPOINT).then(function (response) {
+        return HttpService.get(ENDPOINT.MAIN).then(function (response) {
             var headers = response.headers
             var hasETag = headers('ETag') !== null
             var contentLength = parseInt(headers('Content-Length'), 10)
             var isAuthenticated = !hasETag
-                               && contentLength !== CONTENT_LENGTH_LOGGED_OUT
+            && contentLength !== CONTENT_LENGTH.LOGGED_OUT
 
-            deferred.resolve(isAuthenticated)
+            return isAuthenticated
         })
-
-        return deferred.promise
     }
 
     function loginHandler(loginData) {
-        var deferred = $q.defer()
-
-        $http.post(LOGIN_ENDPOINT, loginData, POST_REQUEST_CONFIG).then(function (response) {
+        return HttpService.post(ENDPOINT.LOGIN, loginData).then(function (response) {
             var headers = response.headers
             var contentLength = parseInt(headers('Content-Length'), 10)
-            var isAuthenticated = contentLength === CONTENT_LENGTH_SUCCESS
-                               || contentLength !== CONTENT_LENGTH_ERROR
+            var isAuthenticated = contentLength === CONTENT_LENGTH.SUCCESS
+            || contentLength !== CONTENT_LENGTH.ERROR
 
-            if (isAuthenticated) {
-                deferred.resolve()
-            }
-            else {
-                deferred.reject('Inloggning misslyckades')
-            }
+            return isAuthenticated
         })
-
-        return deferred.promise
     }
 })
-
-function urlEncodeRequest(request) {
-    var encode = encodeURIComponent
-    return Object.keys(request)
-    .map(function (key) {
-        var value = request[key]
-        return [key, value].map(encode).join('=')
-    })
-    .join('&')
-}

@@ -32,8 +32,13 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 ion-nav-view {
     background-color: $base-background-color;
 }
-.list-inset {
+.card, .list-inset {
     margin: 10px
+}
+.item-avatar {
+    > img:first-child {
+        box-shadow: $card-box-shadow;
+    }
 }
 
 $bar-notification-height: 24px;
