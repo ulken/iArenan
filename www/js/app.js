@@ -5,7 +5,7 @@ var app = angular.module('iArenan', [
     'iA.utils'
 ])
 
-app.run(function($ionicPlatform, $state, AuthenticationService) {
+app.run(function ($ionicPlatform) {
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -15,7 +15,7 @@ app.run(function($ionicPlatform, $state, AuthenticationService) {
     })
 })
 
-app.config(function($stateProvider, $urlRouterProvider) {
+app.config(function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider
 
@@ -25,8 +25,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
         templateUrl: 'templates/main.html',
         controller: 'MainCtrl',
         resolve: {
-            isLoggedIn: function (AuthenticationService) {
+            isAuthenticated: function (AuthenticationService) {
                 return AuthenticationService.isAuthenticated()
+            }
+        },
+        onEnter: function ($state, isAuthenticated) {
+            if (!isAuthenticated) {
+                $state.go('login')
             }
         }
     })
@@ -38,14 +43,54 @@ app.config(function($stateProvider, $urlRouterProvider) {
                 templateUrl: 'templates/home.html',
                 controller: 'HomeCtrl'
             }
-        }
+        },
     })
 
     .state('login', {
         url: '/login',
         templateUrl: 'templates/login.html',
-        controller: 'LoginCtrl'
+        controller: 'LoginCtrl',
+        resolve: {
+            isAuthenticated: function (AuthenticationService) {
+                return AuthenticationService.isAuthenticated()
+            }
+        },
+        onEnter: function ($state, isAuthenticated) {
+            if (isAuthenticated) {
+                $state.go('ia.home')
+            }
+        }
     })
 
-    $urlRouterProvider.otherwise('/ia/home')
+    $urlRouterProvider.otherwise('/login')
+})
+
+app.config(function ($httpProvider) {
+    var defaults = $httpProvider.defaults
+
+    defaults.headers.post = {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+
+    defaults.transformRequest = transformRequest
+
+    function transformRequest(data, getHeaders) {
+        var headers = getHeaders()
+
+        if (headers['Content-Type'] === defaults.headers.post['Content-Type']) {
+            return urlEncode(data)
+        }
+
+        return data
+    }
+
+    function urlEncode(data) {
+        var encode = encodeURIComponent
+        return Object.keys(data)
+        .map(function (key) {
+            var value = data[key]
+            return [key, value].map(encode).join('=')
+        })
+        .join('&')
+    }
 })
