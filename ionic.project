@@ -1,6 +1,6 @@
 {
   "name": "iArenan",
-  "app_id": "",
+  "app_id": "com.ulknest.iArenan",
   "gulpStartupTasks": [
     "sass",
     "watch"
