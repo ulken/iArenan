@@ -1,19 +1,22 @@
 <ion-side-menus>
 
-  <ion-side-menu-content>
+  <ion-side-menu-content edge-drag-threshold="true">
     <ion-nav-bar class="bar-energized nav-title-slide-ios7">
       <ion-nav-back-button class="button-clear">
         <i class="icon ion-ios7-arrow-back"></i>
       </ion-nav-back-button>
     </ion-nav-bar>
     <ion-nav-view name="viewContent" animation="slide-right-left"></ion-nav-view>
+    
   </ion-side-menu-content>
 
   <ion-side-menu side="right">
+    <ion-header-bar class="bar-dark">
+        <h1 class="title">Inställningar</h1>
+    </ion-header-bar>
     <ion-content>
       <ion-list>
-          <ion-item class="item-divider">Inställningar</ion-item>
-          <ion-item menu-close nav-clear href="#/login" class="item-icon-left"  ng-click="doLogout()">
+          <ion-item menu-close href="#/login" class="item-icon-left" ng-click="doLogout()">
               <i class="icon ion-power"></i>
               Logga ut
           </ion-item>

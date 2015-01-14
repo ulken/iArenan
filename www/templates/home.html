@@ -15,10 +15,11 @@
         <ion-list>
             <div class="list card">
                 <div class="item item-divider">Min Gladiator</div>
-                <div class="item item-avatar">
+                <div class="item item-avatar item-icon-right" ng-click="modal.show()">
                     <img ng-src="{{data.image}}" alt="Profilbild">
                     <h2>{{data.name}}</h2>
                     <p>{{data.title}}</p>
+                    <i class="icon ion-ios7-information-outline positive"></i>
                 </div>
                 <div class="item item-icon-left">
                     <i class="icon ion-connection-bars"></i>
@@ -55,15 +56,6 @@
                         {{data.capital}} sm
                     </span>
                 </div>
-                <!--
-                'rank',
-                'popularity',
-                'race',
-                'age',
-                'gender',
-                'clan',
-                'clanStatus',
-                -->
             </div>
         </ion-list>
     </ion-content>

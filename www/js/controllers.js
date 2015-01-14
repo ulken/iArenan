@@ -6,27 +6,34 @@ app.controller('MainCtrl', function($scope, AuthenticationService) {
     }
 })
 
-app.controller('HomeCtrl', function ($scope, $Q, $timeout, BackendService) {
+app.controller('HomeCtrl', function ($scope, $timeout, $ionicModal, BackendService, myGladiator) {
     $scope.notification = {}
 
-    $Q.chain([
-        BackendService.startGladiatorII,
-        BackendService.getMyGladiator
-    ], { endResultOnly: true })
-    .then(updateData)
-    .catch(alertError)
+    updateMyGladiator(myGladiator)
+
+    $ionicModal.fromTemplateUrl('templates/more.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.modal = modal
+    })
+
+    $scope.$on('$destroy', function() {
+        $scope.modal.remove()
+    })
 
     $scope.refreshData = function () {
         BackendService.getMyGladiator()
-        .then(updateData)
+        .then(updateMyGladiator)
         .catch(alertError)
         .finally(function () {
             $scope.$broadcast('scroll.refreshComplete')
         })
     }
 
-    function updateData(data) {
+    function updateMyGladiator(data) {
         data.image = 'http://arenan.com/gl2/img/gl/' + data.image + '.jpg'
+        data.age = data.age.slice(0, -1) + ' år)'
         $scope.data = data
     }
 

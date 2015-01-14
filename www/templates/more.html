@@ -1,0 +1,57 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-positive">
+        <h1 class="title">Allmän info</h1>
+        <button
+            class="button button-primary button-clear"
+            ng-click="modal.hide()">
+            Stäng
+        </button>
+    </ion-header-bar>
+    <ion-content>
+        <ion-list>
+            <div class="list card">
+                <div class="item item-divider">Min Gladiator</div>
+                <div class="item item-avatar">
+                    <img ng-src="{{data.image}}" alt="Profilbild">
+                    <h2>{{data.name}}</h2>
+                    <p>{{data.title}}</p>
+                </div>
+                <div class="item item-icon-left">
+                    <i class="icon ion-flag"></i>
+                    Ras
+                    <span class="item-note">
+                        {{data.race}}
+                    </span>
+                </div>
+                <div class="item item-icon-left">
+                    <i class="icon ion-ios7-pulse-strong"></i>
+                    Ålder
+                    <span class="item-note">
+                        {{data.age}}
+                    </span>
+                </div>
+                <div class="item item-icon-left">
+                    <i class="icon {{data.gender === 'Man' ? 'ion-male' : 'ion-female'}}"></i>
+                    Kön
+                    <span class="item-note">
+                        {{data.gender}}
+                    </span>
+                </div>
+                <div class="item item-icon-left">
+                    <i class="icon ion-trophy"></i>
+                    Ranking
+                    <span class="item-note">
+                        #{{data.rank}} ({{data.popularity}} pp)
+                    </span>
+                </div>
+                <div ng-if="data.clan" class="item item-icon-left">
+                    <i class="icon ion-social-usd"></i>
+                    Klan
+                    <span class="item-note">
+                        {{data.clan}} ({{data.clanStatus}})
+                    </span>
+                </div>
+            </div>
+        </ion-list>
+    </ion-content>
+</ion-modal-view>

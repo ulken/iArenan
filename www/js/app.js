@@ -44,6 +44,14 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 controller: 'HomeCtrl'
             }
         },
+        resolve: {
+            myGladiator: function ($Q, BackendService) {
+                return $Q.chain([
+                    BackendService.startGladiatorII,
+                    BackendService.getMyGladiator
+                    ], { endResultOnly: true })
+                }
+            }
     })
 
     .state('login', {
