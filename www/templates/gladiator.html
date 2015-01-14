@@ -1,10 +1,4 @@
-<ion-view view-title="iArenan">
-    <ion-nav-buttons side="right">
-        <button menu-toggle="right" class="button button-icon icon ion-navicon"></button>
-    </ion-nav-buttons>
-    <div class="bar bar-notification bar-{{notification.type}}" ng-if="notification.isShowing">
-        {{notification.message}}
-    </div>
+<ion-view>
     <ion-content class="has-header" ng-class="{'has-notification': notification.isShowing}">
         <ion-refresher
             class="invisible"

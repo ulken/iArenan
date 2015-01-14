@@ -36,12 +36,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         }
     })
 
-    .state('ia.home', {
-        url: '/home',
+    .state('ia.gladiator', {
+        url: '/gladiator',
         views: {
-            'viewContent': {
-                templateUrl: 'templates/home.html',
-                controller: 'HomeCtrl'
+            'tabGladiator': {
+                templateUrl: 'templates/gladiator.html',
+                controller: 'GladiatorCtrl'
             }
         },
         resolve: {
@@ -54,6 +54,54 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             }
     })
 
+    .state('ia.arena', {
+        url: '/arena',
+        views: {
+            'tabArena': {
+                templateUrl: 'templates/arena.html',
+                controller: 'ArenaCtrl'
+            }
+        },
+        resolve: {
+            }
+        })
+
+    .state('ia.clans', {
+        url: '/clans',
+        views: {
+            'tabClans': {
+                templateUrl: 'templates/clans.html',
+                controller: 'ClansCtrl'
+            }
+        },
+        resolve: {
+            }
+        })
+
+    .state('ia.market', {
+        url: '/market',
+        views: {
+            'tabMarket': {
+                templateUrl: 'templates/market.html',
+                controller: 'MarketCtrl'
+            }
+        },
+        resolve: {
+            }
+        })
+
+    .state('ia.town', {
+        url: '/town',
+        views: {
+            'tabTown': {
+                templateUrl: 'templates/town.html',
+                controller: 'TownCtrl'
+            }
+        },
+        resolve: {
+            }
+        })
+
     .state('login', {
         url: '/login',
         templateUrl: 'templates/login.html',
@@ -65,7 +113,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         },
         onEnter: function ($state, isAuthenticated) {
             if (isAuthenticated) {
-                $state.go('ia.home')
+                $state.go('ia.gladiator')
             }
         }
     })

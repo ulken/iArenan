@@ -6,7 +6,7 @@ app.controller('MainCtrl', function($scope, AuthenticationService) {
     }
 })
 
-app.controller('HomeCtrl', function ($scope, $timeout, $ionicModal, BackendService, myGladiator) {
+app.controller('GladiatorCtrl', function ($scope, $timeout, $ionicModal, BackendService, myGladiator) {
     $scope.notification = {}
 
     updateMyGladiator(myGladiator)
@@ -62,6 +62,70 @@ app.controller('HomeCtrl', function ($scope, $timeout, $ionicModal, BackendServi
     }
 })
 
+app.controller('ArenaCtrl', function ($scope, $timeout, BackendService) {
+    $scope.notification = {}
+
+    function alertError(message) {
+        $scope.notification = {
+            message: message,
+            type: 'assertive',
+            isShowing: true
+        }
+
+        $timeout(function () {
+            $scope.notification = {}
+        }, 2000)
+    }
+})
+
+app.controller('ClansCtrl', function ($scope, $timeout, BackendService) {
+    $scope.notification = {}
+
+    function alertError(message) {
+        $scope.notification = {
+            message: message,
+            type: 'assertive',
+            isShowing: true
+        }
+
+        $timeout(function () {
+            $scope.notification = {}
+        }, 2000)
+    }
+})
+
+app.controller('MarketCtrl', function ($scope, $timeout, BackendService) {
+    $scope.notification = {}
+
+    function alertError(message) {
+        $scope.notification = {
+            message: message,
+            type: 'assertive',
+            isShowing: true
+        }
+
+        $timeout(function () {
+            $scope.notification = {}
+        }, 2000)
+    }
+})
+
+app.controller('TownCtrl', function ($scope, $timeout, BackendService) {
+    $scope.notification = {}
+
+    function alertError(message) {
+        $scope.notification = {
+            message: message,
+            type: 'assertive',
+            isShowing: true
+        }
+
+        $timeout(function () {
+            $scope.notification = {}
+        }, 2000)
+    }
+})
+
 app.controller('LoginCtrl',
     function ($scope, $state, $timeout, AuthenticationService) {
     $scope.loginData = {}
@@ -72,7 +136,7 @@ app.controller('LoginCtrl',
         .then(function (isAuthenticated) {
             if (isAuthenticated) {
                 $scope.loginData = {}
-                $state.go('ia.home')
+                $state.go('ia.gladiator')
             }
             else {
                 alertError('Inloggningen misslyckades')
